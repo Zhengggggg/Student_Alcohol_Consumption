@@ -1,32 +1,60 @@
-d1=read.table("student-mat.csv",sep=",",header=TRUE, stringsAsFactors = FALSE)
-d2=read.table("student-por.csv",sep=",",header=TRUE, stringsAsFactors = FALSE)
-d3 = merge(d1,d2,by = c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet","activities","nursery","higher","internet","romantic","famrel","freetime","goout","Dalc","Walc","health"))
+d1=read.table("student-mat.csv",sep=",",header=TRUE)
+d2=read.table("student-por.csv",sep=",",header=TRUE)
+
+d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet"))
 print(nrow(d3)) # 382 students
-dim(d3)
-str(d3)
-head(d3)
-colnames(d3) <-  c('school','sex','age','address','family size','parents living together','mother\'s education','father\'s education','mother\'s job','father\'s job','reason choosing this school','attend nursery school','home internet access', 'extra-curricular activities','wants higher education','romantic relationship','family relationship quality','free time after school','hang out with friends','workday alcohol consumption', 'weekend alcohol consumption','current health status','guardian.x','traveltime.x','studytime.x','pastclassfailures.x','extraeducationalsupport.x','familyeducationsupport.x','extrapaidclasses.x','numberofschool absences.x','firstperiodgrade.x','secondperiodgrade.x','final.grade.x','guardian.y','traveltime.y','studytime.y','pastclassfailures.y','extraeducationalsupport.y','familyeducationsupport.y','extrapaidclasses.y','numberofschoolabsences.y','firstperiodgrade.y','secondperiodgrade.y','final.grade.y')
 
-identical(d3[['guardian.x']],d3[['guardian.y']])
-identical(d3[['traveltime.x']],d3[['traveltime.y']])
-identical(d3[['studytime.x']],d3[['studytime.y']])
-identical(d3[['pastclassfailure.x']],d3[['pastclassfailure.y']])
-identical(d3[['extraeducationalsupport.x']],d3[['extraeducationalsupport.y']])
-identical(d3[['familyeducationsupport.x']],d3[['familyeducationsupport.y']])
-identical(d3[['extrapaidclasses.x']],d3[['extrapaidclasses.y']])
-identical(d3[['numberofschoolabsences.x']],d3[['numberofschoolabsences.y']])
-identical(d3[['firstperiodgrade.x']],d3[['firstperiodgrade.y']])
-identical(d3[['secondperiodgrade.x']],d3[['secondperiodgrade.y']])
-identical(d3[['final.grade.x']],d3[['final.grade.y']])
+###column7
+d3[,"Medu"]
+correctNames = c(none = 0, "primary(4th Grade)" =1, "primary(5th-9th Grade)" = 2, "secondary" = 3,"higher" = 4)
+d3[,"Medu"] = factor(d3[,"Medu"], levels = correctNames, labels = names(correctNames))
 
-str(d3)
-d3$guardian.y <- NULL
-d3$traveltime.y <- NULL
-d3$studytime.y <- NULL
-d3$pastclassfailures.y <- NULL
-d3$extraeducationalsupport.y <- NULL
-d3$familyeducationalsupport.y <- NULL
-str(d3)
+###column8
+d3[,"Fedu"]
+correctNames = c(none = 0, "primary(4th Grade)" =1, "primary(5th-9th Grade)" = 2, "secondary" = 3,"higher" = 4)
+d3[,"Fedu"] = factor(d3[,"Fedu"], levels = correctNames, labels = names(correctNames))
 
-any(is.na(d3)) #check for any na value contain inside data
-d3_clean <- d3[colSums(is.na(d3)) != nrow(d3)]
+###column traveltime.x
+d3[,"traveltime.x"]
+correctNames = c("<15min" = 1, "15-30min" =2, "30min-1hour" = 3, ">1hour" = 4)
+d3[,"traveltime.x"] = factor(d3[,"traveltime.x"], levels = correctNames, labels = names(correctNames))
+
+###column8
+d3[,"studytime.x"]
+correctNames = c("<2hours" = 1, "2-5hours" =2, "5-10hours" = 3, ">10hours" = 4)
+d3[,"studytime.x"] = factor(d3[,"studytime.x"], levels = correctNames, labels = names(correctNames))
+
+##number of past class failure, if 1<=n<4
+##d3$failures.x[d3$failures.x == 0] <- 4
+##d3$failures.x
+
+##famrel - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"famrel.x"]
+correctNames = c("very bad" = 1, "bad" =2, "normal" = 3, "good" = 4, "excellent" = 5)
+d3[,"famrel.x"] = factor(d3[,"famrel.x"], levels = correctNames, labels = names(correctNames))
+
+##freetime - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"freetime.x"]
+correctNames = c("very low" = 1, "low" =2, "normal" = 3, "high" = 4, "very high" = 5)
+d3[,"freetime.x"] = factor(d3[,"freetime.x"], levels = correctNames, labels = names(correctNames))
+
+##goout - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"goout.x"]
+correctNames = c("very low" = 1, "low" =2, "normal" = 3, "high" = 4, "very high" = 5)
+d3[,"goout.x"] = factor(d3[,"goout.x"], levels = correctNames, labels = names(correctNames))
+
+##Dalc - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"Dalc.x"]
+correctNames = c("very low" = 1, "low" =2, "normal" = 3, "high" = 4, "very high" = 5)
+d3[,"Dalc.x"] = factor(d3[,"Dalc.x"], levels = correctNames, labels = names(correctNames))
+
+##Walc - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"Walc.x"]
+correctNames = c("very low" = 1, "low" =2, "normal" = 3, "high" = 4, "very high" = 5)
+d3[,"Walc.x"] = factor(d3[,"Walc.x"], levels = correctNames, labels = names(correctNames))
+
+##health - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+d3[,"health.x"]
+correctNames = c("very bad" = 1, "bad" =2, "normal" = 3, "good" = 4, "excellent" = 5)
+d3[,"health.x"] = factor(d3[,"health.x"], levels = correctNames, labels = names(correctNames))
+
